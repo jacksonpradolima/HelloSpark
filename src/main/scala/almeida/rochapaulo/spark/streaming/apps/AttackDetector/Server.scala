@@ -1,4 +1,4 @@
-package almeida.rochapaulo.spark.apps
+package almeida.rochapaulo.spark.streaming.apps.AttackDetector
 
 import java.io._
 import java.net.{ServerSocket, Socket}
@@ -23,7 +23,7 @@ object Server extends App with Logging {
 
   }
 
-  class Server(port : Int) extends Runnable {
+  private class Server(port : Int) extends Runnable {
 
     val executor = Executors.newSingleThreadExecutor()
     val logServer = new ServerSocket(9999)
@@ -51,6 +51,7 @@ object Server extends App with Logging {
 
         val writer = new PrintWriter(new BufferedOutputStream(socket.getOutputStream), true)
         for (i <- 1 to 15) {
+          logger.info(s"Request received from ${getAddress()} at ${System.currentTimeMillis()}")
           writer.println(s"Request received from ${getAddress()} at ${System.currentTimeMillis()}")
         }
         writer.flush()
