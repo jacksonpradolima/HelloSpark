@@ -17,6 +17,7 @@ object AttackDetector extends App with Logging {
     val uri = Thread.currentThread().getContextClassLoader.getResource("log4j.properties")
     PropertyConfigurator.configure(uri)
 
+    println("Starting Program...")
     logger.info("Starting Program")
     (new AttackDetector(9999)).run()
   }
@@ -28,11 +29,13 @@ object AttackDetector extends App with Logging {
 
       val sparkConf =
         new SparkConf()
-          .setMaster("local[2]")
+          .setMaster("local[*]")
           .setAppName(Server.getClass.getSimpleName)
 
       val ssc = new StreamingContext(sparkConf, Seconds(2))
       val stream = ssc.socketTextStream("localhost", port)
+
+      println(s"Spark connected to stream at localhost:${port}")
 
       stream.filter(line => line.startsWith("Request"))
         .map(ip_Timestamp)
@@ -57,9 +60,8 @@ object AttackDetector extends App with Logging {
     def recent : ((String, Long)) => Boolean = {
       tuple => {
         val accessTime = TimeUnit.MILLISECONDS.toSeconds(tuple._2)
-        val currentType = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
-
-        currentType - accessTime < 5
+        val currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
+        currentTime - accessTime <= 5
       }
     }
 
@@ -72,7 +74,9 @@ object AttackDetector extends App with Logging {
     def potentialAttack : ((String, Int)) => Boolean = _._2 > 5
 
     def log2File: (RDD[(String, Int)]) => Unit = {
-      _.foreach(access => logger.warn(s"IP[${access._1}] tried access ${access._2} times in 5 seconds"))
+      _.foreach(access => {
+        logger.warn(s"IP[${access._1}] tried access ${access._2} times in very short time interval")
+      })
     }
 
   }

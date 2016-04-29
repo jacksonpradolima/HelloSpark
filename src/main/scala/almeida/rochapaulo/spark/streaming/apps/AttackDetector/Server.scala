@@ -25,18 +25,18 @@ object Server extends App with Logging {
 
   private class Server(port : Int) extends Runnable {
 
-    val executor = Executors.newSingleThreadExecutor()
-    val logServer = new ServerSocket(9999)
+    val executor = Executors.newFixedThreadPool(10)
+    val logServer = new ServerSocket(port)
 
     override def run(): Unit = {
 
-      try {
+      logger.info(s"SocketServer at localhost:${port}")
 
+      try {
         while (true) {
           val logSocket = logServer.accept()
           executor.execute(new Handler(logSocket))
         }
-
       } finally {
         executor.shutdown()
       }
