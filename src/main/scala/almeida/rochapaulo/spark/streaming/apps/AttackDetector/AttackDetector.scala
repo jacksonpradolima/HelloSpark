@@ -1,5 +1,7 @@
 package almeida.rochapaulo.spark.streaming.apps.AttackDetector
 
+import java.text.{DateFormat, SimpleDateFormat}
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 import org.apache.log4j.PropertyConfigurator
@@ -14,16 +16,20 @@ object AttackDetector extends App with Logging {
 
   override def main(args : Array[String]): Unit = {
 
-    val uri = Thread.currentThread().getContextClassLoader.getResource("log4j.properties")
-    PropertyConfigurator.configure(uri)
+    logger.info(s"Starting AttackDetector at ${
 
-    println("Starting Program...")
-    logger.info("Starting Program")
-    (new AttackDetector(9999)).run()
+      val sdf = new SimpleDateFormat("mm/dd/yyyy : hh:mm:ss")
+      sdf.format(Calendar.getInstance().getTime)
+
+    }")
+
+    (new AttackDetector(Server.HOST, Server.PORT)).run()
+
+    logger.info("AttackDetector finished")
   }
 
 
-  private class AttackDetector(port : Int) extends Runnable {
+  private class AttackDetector(host : String, port : Int) extends Runnable {
 
     override def run() : Unit = {
 
@@ -33,9 +39,9 @@ object AttackDetector extends App with Logging {
           .setAppName(Server.getClass.getSimpleName)
 
       val ssc = new StreamingContext(sparkConf, Seconds(2))
-      val stream = ssc.socketTextStream("localhost", port)
+      val stream = ssc.socketTextStream(host, port)
 
-      println(s"Spark connected to stream at localhost:${port}")
+      logger.info(s"AttackDetector connected to ${host}:${port}")
 
       stream.filter(line => line.startsWith("Request"))
         .map(ip_Timestamp)

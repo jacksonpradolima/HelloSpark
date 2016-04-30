@@ -11,12 +11,14 @@ import scala.util.Random
   */
 object Server extends App with Logging {
 
+  def PORT = 9999
+  def HOST = "localhost"
 
   override def main(args : Array[String]) : Unit = {
 
     val executor = Executors.newSingleThreadExecutor()
     try {
-      executor.execute(new Server(9999))
+      executor.execute(new Server(PORT))
     } finally {
       executor.shutdown()
     }
@@ -41,6 +43,7 @@ object Server extends App with Logging {
         executor.shutdown()
       }
 
+      logger.info("SocketServer finished")
     }
 
     class Handler(socket : Socket) extends Runnable {
