@@ -1,4 +1,4 @@
-package almeida.rochapaulo.spark.streaming.apps.AttackDetector
+package almeida.rochapaulo.spark.streaming.utils
 
 import org.slf4j.LoggerFactory
 
