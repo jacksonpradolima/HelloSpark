@@ -1,10 +1,10 @@
-package almeida.rochapaulo.spark.streaming.apps
+package almeida.rochapaulo.spark.apps
 
 import java.io.{BufferedOutputStream, PrintWriter}
 import java.net.{ServerSocket, Socket}
 import java.util.concurrent.{Executors, TimeUnit}
 
-import almeida.rochapaulo.spark.streaming.utils.Logging
+import almeida.rochapaulo.spark.utils.Logging
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.{Seconds, StreamingContext}

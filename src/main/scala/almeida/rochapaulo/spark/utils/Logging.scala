@@ -1,4 +1,4 @@
-package almeida.rochapaulo.spark.streaming.utils
+package almeida.rochapaulo.spark.utils
 
 import org.slf4j.LoggerFactory
 
