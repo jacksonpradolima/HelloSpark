@@ -1,6 +1,6 @@
 import org.apache.spark.{SparkConf, SparkContext}
 import almeida.rochapaulo.spark.apps.{WordCount, WordCounter}
-import org.scalatest.{FeatureSpec, FlatSpec, FunSuite, Matchers}
+import org.scalatest.{FunSuite, Matchers}
 
 
 /**
