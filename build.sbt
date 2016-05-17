@@ -9,3 +9,4 @@ libraryDependencies += "org.apache.spark" % "spark-core_2.11" % sparkVersion
 libraryDependencies += "org.apache.spark" % "spark-streaming_2.11" % sparkVersion
 libraryDependencies += "org.apache.spark" % "spark-streaming-twitter_2.11" % sparkVersion
 libraryDependencies += "log4j" % "log4j" % "1.2.17"
+libraryDependencies += "org.scalatest" % "scalatest_2.11" % "3.0.0-M15"
