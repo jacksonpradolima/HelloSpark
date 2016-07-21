@@ -1,4 +1,4 @@
-package almeida.rochapaulo.spark.apps
+package almeida.rochapaulo.spark.core
 
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD

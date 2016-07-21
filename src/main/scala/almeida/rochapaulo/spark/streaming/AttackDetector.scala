@@ -1,4 +1,4 @@
-package almeida.rochapaulo.spark.apps
+package almeida.rochapaulo.spark.streaming
 
 import java.io.{BufferedOutputStream, PrintWriter}
 import java.net.{ServerSocket, Socket}
